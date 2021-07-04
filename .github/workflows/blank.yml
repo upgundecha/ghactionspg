@@ -36,7 +36,7 @@ jobs:
           echo test, and deploy your project.
       
       - name: Run Tests
-        id: run-tests
+        id: run_tests
         shell: 'script -q -e -c "bash {0}"'
         run: |
           BUILD_URL="BrowserStack Build: $(cat test.txt)"
