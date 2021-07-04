@@ -39,7 +39,7 @@ jobs:
         id: run_tests
         shell: 'script -q -e -c "bash {0}"'
         run: |
-          BUILD_URL="BrowserStack Build: $(cat test.txt)"
+          BUILD_URL=$(cat test.txt)
           echo "::set-output name=build_url::$BUILD_URL"
 
       - name: 'Comment PR'
