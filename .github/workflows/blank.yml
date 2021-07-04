@@ -43,13 +43,16 @@ jobs:
           echo "::set-output name=build_url::$BUILD_URL"
 
       - name: 'Comment PR'
+        env:
+          BUILD_URL: ${{ steps.run_tests.outputs.build_url }}
         uses: actions/github-script@0.3.0
         if: github.event_name == 'pull_request'
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
+            const { BUILD_URL } = process.env
             const { issue: { number: issue_number }, repo: { owner, repo }  } = context;
-            github.issues.createComment({ issue_number, owner, repo, body: steps.run_tests.outputs.build_url });
+            github.issues.createComment({ issue_number, owner, repo, body: BUILD_URL });
       
       - name: Another comment
         uses: jungwinter/comment@v1
