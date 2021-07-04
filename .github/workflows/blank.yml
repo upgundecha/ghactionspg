@@ -44,7 +44,7 @@ jobs:
 
       - name: 'Comment PR'
         env: 
-          BUILD_URL: {{ steps.run_tests.outputs.build_url }}
+          BUILD_URL: ${{ steps.run_tests.outputs.build_url }}
         uses: actions/github-script@0.3.0
         if: github.event_name == 'pull_request'
         with:
