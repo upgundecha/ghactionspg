@@ -49,7 +49,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const { issue: { number: issue_number }, repo: { owner, repo }  } = context;
-            github.issues.createComment({ issue_number, owner, repo, body: ${{ steps.run_tests.outputs.build_url }} });
+            github.issues.createComment({ issue_number, owner, repo, body: steps.run_tests.outputs.build_url });
       
       - name: Another comment
         uses: jungwinter/comment@v1
