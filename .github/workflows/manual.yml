@@ -17,22 +17,9 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
+        env:
+          LC_ALL: en_US.UTF-8
+          LANG: en_US.UTF-8
         run: |
           echo Hello, world!
-          sudo apt-get update && sudo apt-get install tzdata locales -y && sudo locale-gen pt_BR.UTF-8
-          sudo localectl set-locale LANG="pt_BR.UTF-8"
-          export LANG="pt_BR.UTF-8"
-          sudo update-locale
-          echo "Testing language settings"
-          echo "All languages..."
-          locale -a
-          echo "Actual locale"
           locale
-          echo "Actual numeric settings"
-          locale -c -k LC_NUMERIC
-          echo "LANG Variable"
-          echo "$LANG"
-          echo "LocaleCtl"
-          localectl status
-          echo "Printing decimal"
-          printf "%'.3f\n" 123123,123
