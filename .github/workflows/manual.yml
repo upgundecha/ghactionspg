@@ -23,7 +23,7 @@ jobs:
  
       - name: Query Sendria API
         run: |
-             curl localhost:1080/api/messages/
+             curl http://localhost:1080/api/messages/
      
       # Runs a single command using the runners shell
       - name: Run a one-line script
