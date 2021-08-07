@@ -20,6 +20,10 @@ jobs:
         with:
           smtp-port: 1025
           http-port: 1080
+      
+      - name: Send an email
+        run: |
+             echo 'From: Sendria <sendria@example.com>\n To: You <you@example com>\n Subject: Welcome!\n\n Welcome to Sendria!' | curl smtp://localhost:4444 --mail-from sendria@example.com --mail-rcpt you@example.com --upload-file -
  
       - name: Query Sendria API
         run: |
