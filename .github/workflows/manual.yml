@@ -15,19 +15,16 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - name: Setup sendira
-        uses: upgundecha/start-sendria-github-action@v1.0.0
-        with:
-          smtp-port: 4000
-          http-port: 5000
+      - name: Setup Mailcatcher
+        uses: upgundecha/mailcatcher-action@v1.0.0
       
       - name: Send an email
         run: |
-             echo 'From: Sendria <sendria@example.com>\n To: You <you@example com>\n Subject: Welcome!\n\n Welcome to Sendria!' | curl smtp://localhost:4000 --mail-from sendria@example.com --mail-rcpt you@example.com --upload-file -
+             echo 'From: Sendria <sendria@example.com>\n To: You <you@example com>\n Subject: Welcome!\n\n Welcome to Sendria!' | curl smtp://localhost:1025 --mail-from sendria@example.com --mail-rcpt you@example.com --upload-file -
  
-      - name: Query Sendria API
+      - name: Query Mailcatcher API
         run: |
-             curl http://localhost:5000/api/messages/
+             curl http://localhost:1080/api/messages/
      
       # Runs a single command using the runners shell
       - name: Run a one-line script
