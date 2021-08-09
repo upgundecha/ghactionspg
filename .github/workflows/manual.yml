@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Setup Mailcatcher
-        uses: upgundecha/mailcatcher-action@v1.0.0
+        uses: upgundecha/mailcatcher-action@1.0.0
       
       - name: Send an email
         run: |
