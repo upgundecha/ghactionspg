@@ -34,15 +34,32 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
-
-      - name: Create status check
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Run Tests
+        id: run_tests
+        shell: 'script -q -e -c "bash {0}"'
+        if: hashFiles('qa/test.txt') != ''
         run: |
-          BUILD_COMMIT=$(git rev-parse HEAD)
-          curl \
-          -X POST \
-          -H "Authorization: Bearer $GITHUB_TOKEN" \
-          -H "Accept: application/vnd.github.v3+json" \
-          https://api.github.com/repos/{org}/{repo}/check-runs \
-          -d '{"name":"build", "head_sha": "'"$BUILD_COMMIT"'", "status": "completed", "conclusion": "success" }'
+          BUILD_URL="BrowserStack Build URL: $(cat test.txt)"
+          echo "::set-output name=build_url::$BUILD_URL"
+
+      - name: 'Comment PR'
+        env:
+          BUILD_URL: ${{ steps.run_tests.outputs.build_url }}
+        uses: actions/github-script@0.3.0
+        if: ${{ hashFiles('qa/test.txt') != '' && github.event_name == 'pull_request' }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { BUILD_URL } = process.env
+            const { issue: { number: issue_number }, repo: { owner, repo }  } = context;
+            github.issues.createComment({ issue_number, owner, repo, body: BUILD_URL });
+      
+      - name: Another comment
+        uses: jungwinter/comment@v1
+        id: create
+        with:
+          type: create
+          body: "- [ ] Run tests"
+          issue_number: ${{github.event.number}}
+          token: ${{ secrets.GITHUB_TOKEN }}
