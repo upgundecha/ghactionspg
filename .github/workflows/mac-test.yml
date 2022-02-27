@@ -20,19 +20,15 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
           
-      - uses: ankane/setup-postgres@v1
-        with:
-          username: postgres
-          password: postgres
-          database: leatherspa_e2e_test
-          port: "5432"
-          config: |
-            shared_preload_libraries = 'pg_stat_statements'
-
       # Runs a single command using the runners shell
-      - name: Run a one-line script
+      - name: Run Script
         run: |
           export var=$(ipconfig getifaddr en0)
           echo $var
+          brew update
+          brew install postgresql
+          brew services start postgresql
+          brew install redis
+          brew services start redis
 
       
